@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chemistry\Solution.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="GameObjects\Components\Damage\DamageableComponent.cs" />
     <Compile Include="GameObjects\Components\Doors\SharedDoorComponent.cs" />
@@ -118,6 +119,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="Input\ContentKeyFunctions.cs" />
+    <Compile Include="Chemistry\ReagentPrototype.cs" />
     <Compile Include="SharedGameTicker.cs" />
     <Compile Include="SharedNotifyManager.cs" />
     <Compile Include="Utility\ContentHelpers.cs" />
