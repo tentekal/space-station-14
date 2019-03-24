@@ -113,10 +113,6 @@
       <Project>{0529f740-0000-0000-0000-000000000000}</Project>
       <Name>SS14.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\engine\SS14.UnitTesting\SS14.UnitTesting.csproj">
-      <Project>{f0ada779-40b8-4f7e-ba6c-cdb19f3065d9}</Project>
-      <Name>SS14.UnitTesting</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
