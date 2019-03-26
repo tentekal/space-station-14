@@ -28,6 +28,7 @@ using System;
 using Content.Client.GameObjects.Components.Mobs;
 using Content.Client.GameObjects.Components.Sound;
 using Content.Client.UserInterface;
+using Content.Shared.GameObjects.Components.Chemistry;
 using Content.Shared.GameObjects.Components.Markers;
 using Content.Shared.GameObjects.Components.Mobs;
 using SS14.Client.Interfaces.UserInterface;
@@ -83,6 +84,7 @@ namespace Content.Client
             factory.Register<DamageableComponent>();
             factory.Register<ClothingComponent>();
             factory.Register<ItemComponent>();
+            factory.Register<SolutionComponent>();
             factory.Register<SoundComponent>();
 
             factory.RegisterReference<ClothingComponent, ItemComponent>();

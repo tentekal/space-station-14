@@ -40,6 +40,7 @@ using Content.Server.GameObjects.Components.Weapon.Ranged;
 using Content.Server.GameTicking;
 using Content.Server.Interfaces;
 using Content.Server.Interfaces.GameTicking;
+using Content.Shared.GameObjects.Components.Chemistry;
 using Content.Shared.GameObjects.Components.Inventory;
 using Content.Shared.GameObjects.Components.Markers;
 using Content.Shared.GameObjects.Components.Mobs;
@@ -78,6 +79,8 @@ namespace Content.Server
             factory.Register<DestructibleComponent>();
             factory.Register<TemperatureComponent>();
             factory.Register<ServerDoorComponent>();
+
+            factory.Register<SolutionComponent>();
 
             //Power Components
             factory.Register<PowerTransferComponent>();
