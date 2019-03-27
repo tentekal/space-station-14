@@ -66,6 +66,7 @@
     <Compile Include="Administration\AGhost.cs" />
     <Compile Include="AI\AimShootLifeProcessor.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="GameObjects\Components\Chemistry\SolutionComponent.cs" />
     <Compile Include="GameObjects\Components\Damage\DamageThreshold.cs" />
     <Compile Include="GameObjects\Components\Doors\ServerDoorComponent.cs" />
     <Compile Include="GameObjects\Components\Interactable\HandheldLightComponent.cs" />
@@ -191,7 +192,5 @@
     <Compile Include="GameObjects\Components\Construction\ConstructorComponent.cs" />
     <Compile Include="GameObjects\Components\Construction\ConstructionComponent.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GameObjects\Components\Healing\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

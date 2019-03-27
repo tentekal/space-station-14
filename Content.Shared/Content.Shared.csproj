@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chemistry\Solution.cs" />
+    <Compile Include="Chemistry\SolutionCaps.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="GameObjects\Components\Chemistry\SolutionComponent.cs" />
     <Compile Include="GameObjects\Components\Damage\DamageableComponent.cs" />
