@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Content.Server.GameObjects.EntitySystems;
+using Content.Shared.Chemistry;
 using Content.Shared.GameObjects;
 using SS14.Shared.Interfaces.GameObjects;
 
@@ -23,15 +19,15 @@ namespace Content.Server.GameObjects.Components.Chemistry
             protected override string GetText(IEntity user, SolutionComponent component)
             {
                 if(!user.TryGetComponent<HandsComponent>(out var hands))
-                    return string.Empty;
+                    return "<I SHOULD BE INVISIBLE>";
 
                 if(hands.GetActiveHand == null)
-                    return string.Empty;
+                    return "<I SHOULD BE INVISIBLE>";
 
                 var heldEntityName = hands.GetActiveHand.Owner?.Prototype?.Name ?? "<Item>";
                 var myName = component.Owner.Prototype?.Name ?? "<Item>";
 
-                return $"Fill [{myName}] with [{heldEntityName}].";
+                return $"Transfer liquid from [{heldEntityName}] to [{myName}].";
             }
 
             protected override bool IsDisabled(IEntity user, SolutionComponent component)
@@ -40,12 +36,15 @@ namespace Content.Server.GameObjects.Components.Chemistry
                 {
                     if (hands.GetActiveHand != null)
                     {
-                        if (hands.GetActiveHand.Owner.HasComponent<SolutionComponent>())
-                            return true;
+                        if (hands.GetActiveHand.Owner.TryGetComponent<SolutionComponent>(out var solution))
+                        {
+                            if ((solution.Capabilities & SolutionCaps.PourOut) != 0 && (component.Capabilities & SolutionCaps.PourIn) != 0)
+                                return false;
+                        }
                     }
                 }
 
-                return false;
+                return true;
             }
 
             protected override void Activate(IEntity user, SolutionComponent component)
@@ -60,26 +59,32 @@ namespace Content.Server.GameObjects.Components.Chemistry
             protected override string GetText(IEntity user, SolutionComponent component)
             {
                 if (!user.TryGetComponent<HandsComponent>(out var hands))
-                    return string.Empty;
+                    return "<I SHOULD BE INVISIBLE>";
 
                 if (hands.GetActiveHand == null)
-                    return string.Empty;
+                    return "<I SHOULD BE INVISIBLE>";
 
                 var heldEntityName = hands.GetActiveHand.Owner?.Prototype?.Name ?? "<Item>";
                 var myName = component.Owner.Prototype?.Name ?? "<Item>";
 
-                return $"Empty [{myName}] into [{heldEntityName}].";
+                return $"Transfer liquid from [{myName}] to [{heldEntityName}].";
             }
 
             protected override bool IsDisabled(IEntity user, SolutionComponent component)
             {
-                if (!user.TryGetComponent<HandsComponent>(out var hands))
-                    return false;
+                if (user.TryGetComponent<HandsComponent>(out var hands))
+                {
+                    if (hands.GetActiveHand != null)
+                    {
+                        if (hands.GetActiveHand.Owner.TryGetComponent<SolutionComponent>(out var solution))
+                        {
+                            if ((solution.Capabilities & SolutionCaps.PourIn) != 0 && (component.Capabilities & SolutionCaps.PourOut) != 0)
+                                return false;
+                        }
+                    }
+                }
 
-                if (hands.GetActiveHand == null)
-                    return false;
-
-                return hands.GetActiveHand.Owner.HasComponent<SolutionComponent>();
+                return true;
             }
 
             protected override void Activate(IEntity user, SolutionComponent component)

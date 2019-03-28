@@ -4,5 +4,4 @@
   name: "Reagent Item"
   abstract: true
   components:
-  - type: reagent
-    volume: 5
+  - type: Solution
