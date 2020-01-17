@@ -12,10 +12,11 @@
   - type: Thirst
   # Organs
   - type: Stomach
-  
+
   - type: Inventory
   - type: Constructor
   - type: Clickable
+  - type: InteractionOutline
   - type: Sprite
     netsync: false
     drawdepth: Mobs
@@ -23,6 +24,12 @@
     layers:
     - sprite: Mob/human.rsi
       state: male
+    - map: ["enum.HumanoidVisualLayers.Hair"]
+      state: bald
+      sprite: Mob/human_hair.rsi
+    - map: ["enum.HumanoidVisualLayers.FacialHair"]
+      state: shaved
+      sprite: Mob/human_facial_hair.rsi
     - map: ["enum.Slots.INNERCLOTHING"]
     - map: ["enum.Slots.IDCARD"]
     - map: ["enum.Slots.SHOES"]
@@ -47,9 +54,9 @@
   - type: Collidable
     shapes:
     - !type:PhysShapeAabb
-      bounds: "-0.5,-0.25,-0.05,0.25" 
-      mask: 19
-      layer: 2
+      bounds: "-0.35,-0.35,0.35,0.35"
+      mask: 30
+      layer: 4
 
   - type: Input
     context: "human"
@@ -75,4 +82,4 @@
   - type: Examiner
   - type: CharacterInfo
   - type: FootstepSound
-
+  - type: Hair

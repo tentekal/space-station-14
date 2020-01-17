@@ -1,23 +1,23 @@
 ﻿using System;
-using Content.Client.Chat;
 using Content.Client.GameObjects.Components.Actor;
-using Content.Client.GameTicking;
 using Content.Client.Input;
 using Content.Client.Interfaces;
 using Content.Client.Interfaces.Chat;
 using Content.Client.Interfaces.Parallax;
 using Content.Client.Parallax;
 using Content.Client.Sandbox;
+using Content.Client.State;
 using Content.Client.UserInterface;
 using Content.Shared.GameObjects.Components;
+using Content.Shared.GameObjects.Components.Cargo;
 using Content.Shared.GameObjects.Components.Chemistry;
 using Content.Shared.GameObjects.Components.Markers;
 using Content.Shared.GameObjects.Components.Research;
 using Content.Shared.GameObjects.Components.VendingMachines;
-using Content.Shared.Interfaces;
 using Robust.Client.Interfaces;
 using Robust.Client.Interfaces.Graphics.Overlays;
 using Robust.Client.Interfaces.Input;
+using Robust.Client.Interfaces.State;
 using Robust.Client.Interfaces.UserInterface;
 using Robust.Client.Player;
 using Robust.Shared.ContentPack;
@@ -32,6 +32,8 @@ namespace Content.Client
     {
 #pragma warning disable 649
         [Dependency] private readonly IPlayerManager _playerManager;
+        [Dependency] private readonly IBaseClient _baseClient;
+        [Dependency] private readonly IStateManager _stateManager;
         [Dependency] private readonly IEscapeMenuOwner _escapeMenuOwner;
 #pragma warning restore 649
 
@@ -97,6 +99,8 @@ namespace Content.Client
                 "BallisticBullet",
                 "HitscanWeaponCapacitor",
                 "PowerCell",
+                "WeaponCapacitorCharger",
+                "PowerCellCharger",
                 "AiController",
                 "PlayerInputMover",
                 "Computer",
@@ -119,6 +123,11 @@ namespace Content.Client
                 "Hunger",
                 "Thirst",
                 "Rotatable",
+                "MagicMirror",
+                "MedkitFill",
+                "FloorTile",
+                "FootstepSound",
+                "UtilityBeltClothingFill"
             };
 
             foreach (var ignoreName in registerIgnore)
@@ -134,20 +143,13 @@ namespace Content.Client
 
             factory.Register<SharedVendingMachineComponent>();
             factory.Register<SharedWiresComponent>();
-
+            factory.Register<SharedCargoConsoleComponent>();
             factory.Register<SharedReagentDispenserComponent>();
 
             prototypes.RegisterIgnore("material");
             prototypes.RegisterIgnore("reaction"); //Chemical reactions only needed by server. Reactions checks are server-side.
 
-            IoCManager.Register<IGameHud, GameHud>();
-            IoCManager.Register<IClientNotifyManager, ClientNotifyManager>();
-            IoCManager.Register<ISharedNotifyManager, ClientNotifyManager>();
-            IoCManager.Register<IClientGameTicker, ClientGameTicker>();
-            IoCManager.Register<IParallaxManager, ParallaxManager>();
-            IoCManager.Register<IChatManager, ChatManager>();
-            IoCManager.Register<IEscapeMenuOwner, EscapeMenuOwner>();
-            IoCManager.Register<ISandboxManager, SandboxManager>();
+            ClientContentIoC.Register();
 
             if (TestingCallbacks != null)
             {
@@ -168,6 +170,11 @@ namespace Content.Client
             IoCManager.InjectDependencies(this);
 
             _escapeMenuOwner.Initialize();
+
+            _baseClient.PlayerJoinedGame += (sender, args) =>
+            {
+                _stateManager.RequestStateChange<GameScreen>();
+            };
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿using System;
-using Content.Shared.GameObjects.Components.Research;
-using Robust.Client.UserInterface.Controls;
+﻿using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Shared.IoC;
 using Robust.Shared.Localization;
@@ -38,10 +36,10 @@ namespace Content.Client.GameObjects.Components.Research
             {
                 SizeFlagsVertical = SizeFlags.FillExpand,
                 SizeFlagsHorizontal = SizeFlags.FillExpand,
-                MarginTop = 5f,
+                /*MarginTop = 5f,
                 MarginLeft = 5f,
                 MarginRight = -5f,
-                MarginBottom = -5f,
+                MarginBottom = -5f,*/
             };
 
             margin.AddChild(_servers);

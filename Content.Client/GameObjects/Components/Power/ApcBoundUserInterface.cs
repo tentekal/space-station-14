@@ -3,7 +3,6 @@ using Content.Client.UserInterface;
 using Content.Shared.GameObjects.Components.Power;
 using Robust.Client.GameObjects.Components.UserInterface;
 using Robust.Client.Graphics.Drawing;
-using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Shared.GameObjects.Components.UserInterface;
@@ -22,10 +21,7 @@ namespace Content.Client.GameObjects.Components.Power
         {
             base.Open();
 
-            _window = new ApcWindow
-            {
-                MarginRight = 426.0f, MarginBottom = 270.0f
-            };
+            _window = new ApcWindow();
             _window.OnClose += Close;
             _window.OpenCenteredMinSize();
 
@@ -153,7 +149,7 @@ namespace Content.Client.GameObjects.Components.Power
                 var chargeLabel = new Label {Text = "Charge:"};
                 ChargeBar = new ProgressBar
                 {
-                    SizeFlagsHorizontal = Control.SizeFlags.FillExpand,
+                    SizeFlagsHorizontal = SizeFlags.FillExpand,
                     MinValue = 0.0f,
                     MaxValue = 1.0f,
                     Page = 0.0f,

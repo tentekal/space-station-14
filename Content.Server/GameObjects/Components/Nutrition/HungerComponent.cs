@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Content.Server.GameObjects.Components.Mobs;
 using Content.Server.GameObjects.Components.Movement;
 using Content.Shared.GameObjects;
 using Content.Shared.GameObjects.Components.Mobs;
-using Content.Shared.GameObjects.Components.Nutrition;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Interfaces.Random;
 using Robust.Shared.IoC;
@@ -49,7 +48,7 @@ namespace Content.Server.GameObjects.Components.Nutrition
         public override void ExposeData(ObjectSerializer serializer)
         {
             base.ExposeData(serializer);
-            serializer.DataField(ref _baseDecayRate, "base_decay_rate", 0.5f);
+            serializer.DataField(ref _baseDecayRate, "base_decay_rate", 0.1f);
         }
 
         public void HungerThresholdEffect(bool force = false)
@@ -164,6 +163,11 @@ namespace Content.Server.GameObjects.Components.Nutrition
                 }
                 return;
             }
+        }
+
+        public void ResetFood()
+        {
+            _currentHunger = HungerThresholds[HungerThreshold.Okay];
         }
     }
 

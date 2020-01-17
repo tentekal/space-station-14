@@ -1,14 +1,11 @@
 using Content.Shared.GameObjects.Components.Research;
 using Content.Shared.Research;
 using Robust.Shared.GameObjects;
-using Robust.Shared.IoC;
-using Robust.Shared.Log;
-using Robust.Shared.Prototypes;
 
 namespace Content.Server.GameObjects.Components.Research
 {
     [RegisterComponent]
-    public class TechnologyDatabaseComponent : SharedTechnologyDatabaseComponent
+    public class  TechnologyDatabaseComponent : SharedTechnologyDatabaseComponent
     {
         public override ComponentState GetComponentState()
         {

@@ -1,4 +1,5 @@
-﻿using Content.Client.UserInterface;
+﻿using Content.Client.State;
+using Content.Client.UserInterface;
 using Robust.Client.Console;
 using Robust.Client.Interfaces.Input;
 using Robust.Client.Interfaces.Placement;
@@ -10,7 +11,6 @@ using Robust.Shared.Interfaces.Configuration;
 using Robust.Shared.Interfaces.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Localization;
-using Robust.Shared.Players;
 using Robust.Shared.Prototypes;
 
 namespace Content.Client

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Content.Server.GameObjects.EntitySystems;
 using Content.Server.Interfaces;
 using Content.Shared.GameObjects;
+using Robust.Server.GameObjects.EntitySystems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Random;
 using Robust.Shared.IoC;
-using Robust.Shared.Maths;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
 using Robust.Shared.ViewVariables;
@@ -37,6 +36,7 @@ namespace Content.Server.GameObjects.Components.Destructible
         public DamageType damageType = DamageType.Total;
         public int damageValue = 0;
         public string spawnOnDestroy = "";
+        public string destroySound = "";
         public bool destroyed = false;
 
         ActSystem _actSystem;
@@ -48,6 +48,7 @@ namespace Content.Server.GameObjects.Components.Destructible
             serializer.DataField(ref damageValue, "thresholdvalue", 100);
             serializer.DataField(ref damageType, "thresholdtype", DamageType.Total);
             serializer.DataField(ref spawnOnDestroy, "spawnondestroy", "");
+            serializer.DataField(ref destroySound, "destroysound", "");
         }
 
         public override void Initialize()
@@ -70,6 +71,12 @@ namespace Content.Server.GameObjects.Components.Destructible
             {
                 destroyed = true;
                 _actSystem.HandleDestruction(Owner, true);
+                if(destroySound != string.Empty)
+                {
+                    _entitySystemManager.GetEntitySystem<AudioSystem>().Play(destroySound, Owner);
+                }
+
+
             }
 
         }

@@ -15,6 +15,7 @@ namespace Content.Client.UserInterface
         public const string StyleClassLabelHeading = "LabelHeading";
         public const string StyleClassLabelHeadingBigger = "LabelHeadingBigger";
         public const string StyleClassLabelSubText = "LabelSubText";
+        public const string StyleClassLabelKeyText = "LabelKeyText";
         public const string StyleClassLabelSecondaryColor = "LabelSecondaryColor";
         public const string StyleClassLabelBig = "LabelBig";
         public const string StyleClassButtonBig = "ButtonBig";
@@ -36,6 +37,7 @@ namespace Content.Client.UserInterface
             var resCache = IoCManager.Resolve<IResourceCache>();
             var notoSans10 = resCache.GetFont("/Nano/NotoSans/NotoSans-Regular.ttf", 10);
             var notoSans12 = resCache.GetFont("/Nano/NotoSans/NotoSans-Regular.ttf", 12);
+            var notoSansBold12 = resCache.GetFont("/Nano/NotoSans/NotoSans-Bold.ttf", 12);
             var notoSansDisplayBold14 = resCache.GetFont("/Fonts/NotoSansDisplay/NotoSansDisplay-Bold.ttf", 14);
             var notoSans16 = resCache.GetFont("/Nano/NotoSans/NotoSans-Regular.ttf", 16);
             var notoSansBold16 = resCache.GetFont("/Nano/NotoSans/NotoSans-Bold.ttf", 16);
@@ -47,6 +49,7 @@ namespace Content.Client.UserInterface
                 Texture = windowHeaderTex,
                 PatchMarginBottom = 3,
                 ExpandMarginBottom = 3,
+                ContentMarginBottomOverride = 0
             };
             var windowBackgroundTex = resCache.GetTexture("/Nano/window_background.png");
             var windowBackground = new StyleBoxTexture
@@ -105,15 +108,17 @@ namespace Content.Client.UserInterface
 
             var vScrollBarGrabberNormal = new StyleBoxFlat
             {
-                BackgroundColor = Color.Gray.WithAlpha(0.35f), ContentMarginLeftOverride = 10
+                BackgroundColor = Color.Gray.WithAlpha(0.35f), ContentMarginLeftOverride = 10, ContentMarginTopOverride = 10
             };
             var vScrollBarGrabberHover = new StyleBoxFlat
             {
-                BackgroundColor = new Color(140, 140, 140).WithAlpha(0.35f), ContentMarginLeftOverride = 10
+                BackgroundColor = new Color(140, 140, 140).WithAlpha(0.35f), ContentMarginLeftOverride = 10,
+                ContentMarginTopOverride = 10
             };
             var vScrollBarGrabberGrabbed = new StyleBoxFlat
             {
-                BackgroundColor = new Color(160, 160, 160).WithAlpha(0.35f), ContentMarginLeftOverride = 10
+                BackgroundColor = new Color(160, 160, 160).WithAlpha(0.35f), ContentMarginLeftOverride = 10,
+                ContentMarginTopOverride = 10
             };
 
             var hScrollBarGrabberNormal = new StyleBoxFlat
@@ -170,6 +175,9 @@ namespace Content.Client.UserInterface
             var itemListItemBackground = new StyleBoxFlat {BackgroundColor = new Color(55, 55, 68)};
             itemListItemBackground.SetContentMarginOverride(StyleBox.Margin.Vertical, 2);
             itemListItemBackground.SetContentMarginOverride(StyleBox.Margin.Horizontal, 4);
+            var itemListItemBackgroundTransparent = new StyleBoxFlat { BackgroundColor = Color.Transparent };
+            itemListItemBackgroundTransparent.SetContentMarginOverride(StyleBox.Margin.Vertical, 2);
+            itemListItemBackgroundTransparent.SetContentMarginOverride(StyleBox.Margin.Horizontal, 4);
 
             // NanoHeading
             var nanoHeadingTex = resCache.GetTexture("/Nano/nanoheading.svg.96dpi.png");
@@ -216,14 +224,14 @@ namespace Content.Client.UserInterface
                     new SelectorElement(null, new[] {SS14Window.StyleClassWindowPanel}, null, null),
                     new[]
                     {
-                        new StyleProperty(Panel.StylePropertyPanel, windowBackground),
+                        new StyleProperty(PanelContainer.StylePropertyPanel, windowBackground),
                     }),
                 // Window header.
                 new StyleRule(
-                    new SelectorElement(typeof(Panel), new[] {SS14Window.StyleClassWindowHeader}, null, null),
+                    new SelectorElement(typeof(PanelContainer), new[] {SS14Window.StyleClassWindowHeader}, null, null),
                     new[]
                     {
-                        new StyleProperty(Panel.StylePropertyPanel, windowHeader),
+                        new StyleProperty(PanelContainer.StylePropertyPanel, windowHeader),
                     }),
                 // Window close button base texture.
                 new StyleRule(
@@ -429,6 +437,18 @@ namespace Content.Client.UserInterface
                         itemListBackgroundSelected)
                 }),
 
+                new StyleRule(new SelectorElement(typeof(ItemList), new []{"transparentItemList"}, null, null), new[]
+                {
+                    new StyleProperty(ItemList.StylePropertyBackground,
+                        new StyleBoxFlat {BackgroundColor = Color.Transparent}),
+                    new StyleProperty(ItemList.StylePropertyItemBackground,
+                        itemListItemBackgroundTransparent),
+                    new StyleProperty(ItemList.StylePropertyDisabledItemBackground,
+                        itemListItemBackgroundDisabled),
+                    new StyleProperty(ItemList.StylePropertySelectedItemBackground,
+                        itemListBackgroundSelected)
+                }),
+
                 // Tree
                 new StyleRule(new SelectorElement(typeof(Tree), null, null, null), new[]
                 {
@@ -475,12 +495,18 @@ namespace Content.Client.UserInterface
                     new StyleProperty(Label.StylePropertyFontColor, Color.DarkGray),
                 }),
 
-                new StyleRule(new SelectorElement(typeof(Label), new[] {StyleClassLabelSecondaryColor}, null, null),
-                    new[]
-                    {
-                        new StyleProperty(Label.StylePropertyFont, notoSans12),
-                        new StyleProperty(Label.StylePropertyFontColor, Color.DarkGray),
-                    }),
+                // Label Key
+                new StyleRule(new SelectorElement(typeof(Label), new []{StyleClassLabelKeyText}, null, null), new []
+                {
+                    new StyleProperty(Label.StylePropertyFont, notoSansBold12),
+                    new StyleProperty(Label.StylePropertyFontColor, NanoGold)
+                }),
+
+                new StyleRule(new SelectorElement(typeof(Label), new[] {StyleClassLabelSecondaryColor}, null, null), new[]
+                {
+                    new StyleProperty(Label.StylePropertyFont, notoSans12),
+                    new StyleProperty(Label.StylePropertyFontColor, Color.DarkGray),
+                }),
 
                 // Big Button
                 new StyleRule(new SelectorElement(typeof(Button), new[] {StyleClassButtonBig}, null, null), new[]

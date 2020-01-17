@@ -41,10 +41,10 @@ namespace Content.Client.Construction
         private List<CategoryNode> FlattenedCategories;
         private readonly PlacementManager Placement;
 
+        protected override Vector2? CustomSize => (500, 350);
+
         public ConstructionMenu()
         {
-            Size = (500, 350);
-
             IoCManager.InjectDependencies(this);
             Placement = (PlacementManager) IoCManager.Resolve<IPlacementManager>();
             Placement.PlacementCanceled += OnPlacementCanceled;
@@ -161,17 +161,17 @@ namespace Content.Client.Construction
                             {
                                 case ConstructionStepMaterial.MaterialType.Metal:
                                     icon = ResourceCache.GetResource<TextureResource>(
-                                        "/Textures/Objects/sheet_metal.png");
+                                        "/Textures/Objects/Materials/sheet_metal.png");
                                     text = $"Metal x{mat.Amount}";
                                     break;
                                 case ConstructionStepMaterial.MaterialType.Glass:
                                     icon = ResourceCache.GetResource<TextureResource>(
-                                        "/Textures/Objects/sheet_glass.png");
+                                        "/Textures/Objects/Materials/sheet_glass.png");
                                     text = $"Glass x{mat.Amount}";
                                     break;
                                 case ConstructionStepMaterial.MaterialType.Cable:
                                     icon = ResourceCache.GetResource<TextureResource>(
-                                        "/Textures/Objects/cable_coil.png");
+                                        "/Textures/Objects/Tools/cable_coil.png");
                                     text = $"Cable Coil x{mat.Amount}";
                                     break;
                                 default:
@@ -183,16 +183,16 @@ namespace Content.Client.Construction
                             switch (tool.Tool)
                             {
                                 case ConstructionStepTool.ToolType.Wrench:
-                                    icon = ResourceCache.GetResource<TextureResource>("/Textures/Objects/wrench.png");
+                                    icon = ResourceCache.GetResource<TextureResource>("/Textures/Objects/Tools/wrench.png");
                                     text = "Wrench";
                                     break;
                                 case ConstructionStepTool.ToolType.Crowbar:
-                                    icon = ResourceCache.GetResource<TextureResource>("/Textures/Objects/crowbar.png");
+                                    icon = ResourceCache.GetResource<TextureResource>("/Textures/Objects/Tools/crowbar.png");
                                     text = "Crowbar";
                                     break;
                                 case ConstructionStepTool.ToolType.Screwdriver:
                                     icon = ResourceCache.GetResource<TextureResource>(
-                                        "/Textures/Objects/screwdriver.png");
+                                        "/Textures/Objects/Tools/screwdriver.png");
                                     text = "Screwdriver";
                                     break;
                                 case ConstructionStepTool.ToolType.Welder:
@@ -202,7 +202,7 @@ namespace Content.Client.Construction
                                     break;
                                 case ConstructionStepTool.ToolType.Wirecutters:
                                     icon = ResourceCache.GetResource<TextureResource>(
-                                        "/Textures/Objects/wirecutter.png");
+                                        "/Textures/Objects/Tools/wirecutter.png");
                                     text = "Wirecutters";
                                     break;
                                 default:
@@ -225,7 +225,7 @@ namespace Content.Client.Construction
             PopulateTree(string.IsNullOrWhiteSpace(str) ? null : str.ToLowerInvariant());
         }
 
-        void OnBuildPressed(Button.ButtonEventArgs args)
+        void OnBuildPressed(BaseButton.ButtonEventArgs args)
         {
             var prototype = (ConstructionPrototype) RecipeList.Selected.Metadata;
             if (prototype == null)
@@ -332,7 +332,7 @@ namespace Content.Client.Construction
                     {
                         var found = false;
                         // TODO: don't run ToLowerInvariant() constantly.
-                        if (prototype.Name.ToLowerInvariant().IndexOf(searchTerm) != -1)
+                        if (prototype.Name.ToLowerInvariant().IndexOf(searchTerm, StringComparison.Ordinal) != -1)
                         {
                             found = true;
                         }
@@ -341,7 +341,7 @@ namespace Content.Client.Construction
                             foreach (var keyw in prototype.Keywords.Concat(prototype.CategorySegments))
                             {
                                 // TODO: don't run ToLowerInvariant() constantly.
-                                if (keyw.ToLowerInvariant().IndexOf(searchTerm) != -1)
+                                if (keyw.ToLowerInvariant().IndexOf(searchTerm, StringComparison.Ordinal) != -1)
                                 {
                                     found = true;
                                     break;
@@ -369,7 +369,7 @@ namespace Content.Client.Construction
 
         private static int ComparePrototype(ConstructionPrototype x, ConstructionPrototype y)
         {
-            return x.Name.CompareTo(y.Name);
+            return String.Compare(x.Name, y.Name, StringComparison.Ordinal);
         }
 
         class CategoryNode

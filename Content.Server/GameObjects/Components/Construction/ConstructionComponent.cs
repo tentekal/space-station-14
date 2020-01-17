@@ -91,7 +91,16 @@ namespace Content.Server.GameObjects.Components.Construction
         {
             Prototype = prototype;
             Stage = 1;
-            Sprite.AddLayerWithSprite(prototype.Stages[1].Icon);
+            if(prototype.Stages[1].Icon != null)
+            {
+                Sprite.AddLayerWithSprite(prototype.Stages[1].Icon);
+            }
+            else
+            {
+                Sprite.AddLayerWithSprite(prototype.Icon);
+            }
+            
+
         }
 
         bool TryProcessStep(ConstructionStep step, IEntity slapped)
@@ -168,8 +177,8 @@ namespace Content.Server.GameObjects.Components.Construction
             }
         }
 
-        private static Dictionary<StackType, ConstructionStepMaterial.MaterialType> StackTypeMap
-        = new Dictionary<StackType, ConstructionStepMaterial.MaterialType>
+        private static Dictionary<StackType, MaterialType> StackTypeMap
+        = new Dictionary<StackType, MaterialType>
         {
             { StackType.Cable, MaterialType.Cable },
             { StackType.Glass, MaterialType.Glass },

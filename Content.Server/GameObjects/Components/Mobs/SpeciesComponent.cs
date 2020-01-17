@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Content.Server.GameObjects.Components.Mobs;
 using Content.Server.GameObjects.EntitySystems;
 using Content.Server.Interfaces;
+using Content.Shared.GameObjects;
 using Content.Shared.GameObjects.Components.Mobs;
 using Robust.Server.GameObjects;
 using Robust.Shared.ContentPack;
@@ -100,6 +101,11 @@ namespace Content.Server.GameObjects
         bool IActionBlocker.CanSpeak()
         {
             return CurrentDamageState.CanSpeak();
+		}
+            
+        bool IActionBlocker.CanDrop()
+        {
+            return CurrentDamageState.CanDrop();
         }
 
         bool IActionBlocker.CanEmote()
@@ -179,8 +185,8 @@ namespace Content.Server.GameObjects
                     bruteDamage += 30;
                     break;
             }
-            Owner.GetComponent<DamageableComponent>().TakeDamage(Shared.GameObjects.DamageType.Brute, bruteDamage);
-            Owner.GetComponent<DamageableComponent>().TakeDamage(Shared.GameObjects.DamageType.Heat, burnDamage);
+            Owner.GetComponent<DamageableComponent>().TakeDamage(DamageType.Brute, bruteDamage);
+            Owner.GetComponent<DamageableComponent>().TakeDamage(DamageType.Heat, burnDamage);
         }
     }
 

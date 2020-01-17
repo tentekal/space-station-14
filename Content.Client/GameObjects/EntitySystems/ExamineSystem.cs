@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Content.Shared.GameObjects.EntitySystemMessages;
 using Content.Shared.GameObjects.EntitySystems;
@@ -18,6 +19,7 @@ using Robust.Shared.IoC;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
 using Robust.Shared.Players;
+using Robust.Shared.Utility;
 
 namespace Content.Client.GameObjects.EntitySystems
 {
@@ -73,7 +75,9 @@ namespace Content.Client.GameObjects.EntitySystems
         {
             CloseTooltip();
 
-            var mousePos = _inputManager.MouseScreenPosition;
+            var popupPos = _inputManager.MouseScreenPosition;
+
+
 
             // Actually open the tooltip.
             _examineTooltipOpen = new Popup();
@@ -82,7 +86,7 @@ namespace Content.Client.GameObjects.EntitySystems
             panel.AddStyleClass(StyleClassEntityTooltip);
             panel.ModulateSelfOverride = Color.LightGray.WithAlpha(0.90f);
             _examineTooltipOpen.AddChild(panel);
-            panel.SetAnchorAndMarginPreset(Control.LayoutPreset.Wide);
+            //panel.SetAnchorAndMarginPreset(Control.LayoutPreset.Wide);
             var vBox = new VBoxContainer();
             panel.AddChild(vBox);
             var hBox = new HBoxContainer { SeparationOverride = 5};
@@ -100,7 +104,10 @@ namespace Content.Client.GameObjects.EntitySystems
 
             const float minWidth = 300;
             var size = Vector2.ComponentMax((minWidth, 0), panel.CombinedMinimumSize);
-            _examineTooltipOpen.Open(UIBox2.FromDimensions(mousePos, size));
+
+            popupPos += Vector2.ComponentMin(Vector2.Zero, _userInterfaceManager.StateRoot.Size - (size + popupPos));
+
+            _examineTooltipOpen.Open(UIBox2.FromDimensions(popupPos, size));
 
             if (entity.Uid.IsClientSide())
             {
@@ -127,9 +134,18 @@ namespace Content.Client.GameObjects.EntitySystems
                 _requestCancelTokenSource = null;
             }
 
-            var richLabel = new RichTextLabel();
-            richLabel.SetMessage(response.Message);
-            vBox.AddChild(richLabel);
+            foreach (var msg in response.Message.Tags.OfType<FormattedMessage.TagText>())
+            {
+                if (!string.IsNullOrWhiteSpace(msg.Text))
+                {
+                    var richLabel = new RichTextLabel();
+                    richLabel.SetMessage(response.Message);
+                    vBox.AddChild(richLabel);
+                    break;
+                }
+            }
+
+            //_examineTooltipOpen.Position += Vector2.ComponentMin(Vector2.Zero,_userInterfaceManager.StateRoot.Size - (panel.Size + _examineTooltipOpen.Position));
         }
 
         public void CloseTooltip()

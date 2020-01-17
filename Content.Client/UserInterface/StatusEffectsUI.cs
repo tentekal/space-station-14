@@ -1,9 +1,5 @@
-using Content.Client.Utility;
-using Robust.Client.Graphics;
-using Robust.Client.Interfaces.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
-using Robust.Shared.IoC;
 
 namespace Content.Client.UserInterface
 {
@@ -17,11 +13,13 @@ namespace Content.Client.UserInterface
 
         public StatusEffectsUI()
         {
-            _vBox = new VBoxContainer {GrowHorizontal = GrowDirection.Begin};
+            _vBox = new VBoxContainer();
+            MouseFilter = Control.MouseFilterMode.Ignore;
             AddChild(_vBox);
-            SetAnchorAndMarginPreset(LayoutPreset.TopRight);
-            MarginTop = 250;
-            MarginRight = 10;
+
+            LayoutContainer.SetGrowHorizontal(this, LayoutContainer.GrowDirection.Begin);
+            LayoutContainer.SetAnchorAndMarginPreset(this, LayoutContainer.LayoutPreset.TopRight, margin: 10);
+            LayoutContainer.SetMarginTop(this, 250);
         }
     }
 }

@@ -55,6 +55,8 @@ namespace Content.Client.GameObjects.Components.Chemistry
         [Dependency] private readonly ILocalizationManager _localizationManager;
 #pragma warning restore 649
 
+        protected override Vector2? CustomSize => (500, 600);
+
         /// <summary>
         /// Create and initialize the dispenser UI client-side. Creates the basic layout,
         /// actual data isn't filled in until the server sends data about the dispenser.
@@ -118,7 +120,6 @@ namespace Content.Client.GameObjects.Components.Chemistry
                             //Currently empty, when server sends state data this will have container contents and fill volume.
                             (ContainerInfo = new VBoxContainer
                             {
-                                MarginLeft = 5.0f,
                                 SizeFlagsHorizontal = SizeFlags.FillExpand,
                                 Children =
                                 {
@@ -237,7 +238,7 @@ namespace Content.Client.GameObjects.Components.Chemistry
                 }
 
                 //Check if the reagent is being moused over. If so, color it green.
-                if (proto.ID == highlightedReagentId)
+                if (proto != null && proto.ID == highlightedReagentId)
                 {
                     ContainerInfo.Children.Add(new HBoxContainer
                     {

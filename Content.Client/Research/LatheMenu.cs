@@ -1,6 +1,8 @@
+// Only unused on .NET Core due to KeyValuePair.Deconstruct
+// ReSharper disable once RedundantUsingDirective
+using Robust.Shared.Utility;
 using System.Collections.Generic;
 using Content.Client.GameObjects.Components.Research;
-using Content.Shared.GameObjects.Components.Research;
 using Content.Shared.Materials;
 using Content.Shared.Research;
 using Robust.Client.UserInterface;
@@ -10,8 +12,6 @@ using Robust.Client.Utility;
 using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Timers;
-using Robust.Shared.Utility;
 
 namespace Content.Client.Research
 {
@@ -47,21 +47,13 @@ namespace Content.Client.Research
             {
                 SizeFlagsVertical = SizeFlags.FillExpand,
                 SizeFlagsHorizontal = SizeFlags.FillExpand,
-                MarginTop = 5f,
-                MarginLeft = 5f,
-                MarginRight = -5f,
-                MarginBottom = -5f,
             };
-
-            margin.SetAnchorAndMarginPreset(LayoutPreset.Wide);
 
             var vBox = new VBoxContainer()
             {
                 SizeFlagsVertical = SizeFlags.FillExpand,
                 SeparationOverride = 5,
             };
-
-            vBox.SetAnchorAndMarginPreset(LayoutPreset.Wide);
 
             var hBoxButtons = new HBoxContainer()
             {
@@ -99,8 +91,6 @@ namespace Content.Client.Research
                 SizeFlagsHorizontal = SizeFlags.FillExpand,
                 SizeFlagsStretchRatio = 3,
             };
-
-            spacer.SetAnchorAndMarginPreset(LayoutPreset.Wide);
 
             var hBoxFilter = new HBoxContainer()
             {
@@ -219,9 +209,8 @@ namespace Content.Client.Research
         public void PopulateList()
         {
             Items.Clear();
-            for (var i = 0; i < _shownRecipes.Count; i++)
+            foreach (var prototype in _shownRecipes)
             {
-                var prototype = _shownRecipes[i];
                 Items.AddItem(prototype.Name, prototype.Icon.Frame0());
             }
 

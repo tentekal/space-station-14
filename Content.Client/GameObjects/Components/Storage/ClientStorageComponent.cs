@@ -10,7 +10,6 @@ using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Network;
 using Robust.Shared.IoC;
 using Robust.Shared.Maths;
-using Robust.Shared.Serialization;
 
 namespace Content.Client.GameObjects.Components.Storage
 {
@@ -39,11 +38,6 @@ namespace Content.Client.GameObjects.Components.Storage
             base.OnRemove();
         }
 
-        public override void ExposeData(ObjectSerializer serializer)
-        {
-            base.ExposeData(serializer);
-        }
-
         public override void HandleMessage(ComponentMessage message, INetChannel netChannel = null,
             IComponent component = null)
         {
@@ -54,10 +48,10 @@ namespace Content.Client.GameObjects.Components.Storage
                     HandleStorageMessage(msg);
                     break;
                 //Opens the UI
-                case OpenStorageUIMessage msg:
+                case OpenStorageUIMessage _:
                     OpenUI();
                     break;
-                case CloseStorageUIMessage msg:
+                case CloseStorageUIMessage _:
                     CloseUI();
                     break;
             }
@@ -107,10 +101,10 @@ namespace Content.Client.GameObjects.Components.Storage
             private Label Information;
             public ClientStorageComponent StorageEntity;
 
+            protected override Vector2? CustomSize => (180, 320);
+
             public StorageWindow()
             {
-                Size = (180, 320);
-
                 Title = "Storage Item";
                 RectClipContent = true;
 
@@ -245,14 +239,14 @@ namespace Content.Client.GameObjects.Components.Storage
                     SizeFlagsVertical = SizeFlags.ShrinkCenter,
                     Text = "Size 6",
                     Align = Label.AlignMode.Right,
-                    AnchorLeft = 1.0f,
+                    /*AnchorLeft = 1.0f,
                     AnchorRight = 1.0f,
                     AnchorBottom = 0.5f,
                     AnchorTop = 0.5f,
                     MarginLeft = -38.0f,
                     MarginTop = -7.0f,
                     MarginRight = -5.0f,
-                    MarginBottom = 7.0f
+                    MarginBottom = 7.0f*/
                 };
 
                 EntityControl.AddChild(EntitySize);

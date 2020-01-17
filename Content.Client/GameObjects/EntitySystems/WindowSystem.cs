@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using Content.Client.GameObjects.Components;
-using Content.Client.GameObjects.Components.IconSmoothing;
 using JetBrains.Annotations;
 using Robust.Shared.GameObjects;
-using Robust.Shared.GameObjects.Components.Transform;
 using Robust.Shared.GameObjects.Systems;
 using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Map;
 
 namespace Content.Client.GameObjects.EntitySystems
 {
@@ -37,7 +34,13 @@ namespace Content.Client.GameObjects.EntitySystems
             // Performance: This could be spread over multiple updates, or made parallel.
             while (_dirtyEntities.Count > 0)
             {
-                _dirtyEntities.Dequeue().GetComponent<WindowComponent>().UpdateSprite();
+                var entity = _dirtyEntities.Dequeue();
+                if (entity.Deleted)
+                {
+                    continue;
+                }
+
+                entity.GetComponent<WindowComponent>().UpdateSprite();
             }
         }
     }
