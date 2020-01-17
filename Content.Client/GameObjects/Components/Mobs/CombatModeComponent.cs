@@ -55,5 +55,6 @@ namespace Content.Client.GameObjects.Components.Mobs
             _gameHud.CombatModeActive = IsInCombatMode;
             _gameHud.TargetingZone = ActiveZone;
         }
+
     }
 }

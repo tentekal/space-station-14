@@ -23,6 +23,7 @@ namespace Content.Server.GameObjects.Components.Mobs
             {
                 _isInCombatMode = value;
                 Dirty();
+                CombatEffect();
             }
         }
 
@@ -40,6 +41,15 @@ namespace Content.Server.GameObjects.Components.Mobs
         public override ComponentState GetComponentState()
         {
             return new CombatModeComponentState(IsInCombatMode, ActiveZone);
+        }
+
+        public void CombatEffect()
+        {
+            if (_isInCombatMode)
+            {
+                Owner.TryGetComponent(out ServerStatusEffectsComponent statusEffectsComponent);
+                statusEffectsComponent?.ChangeStatus(StatusEffect.Combat, "/Textures/Mob/UI/Combat/skull_icon.png");
+            }
         }
     }
 }
