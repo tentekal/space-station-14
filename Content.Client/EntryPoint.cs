@@ -74,7 +74,6 @@ namespace Content.Client
                 "Wirecutter",
                 "Screwdriver",
                 "Multitool",
-                "Welder",
                 "Wrench",
                 "Crowbar",
                 "HitscanWeapon",
@@ -82,7 +81,6 @@ namespace Content.Client
                 "Projectile",
                 "MeleeWeapon",
                 "Storeable",
-                "Stack",
                 "Dice",
                 "Construction",
                 "Apc",
@@ -90,12 +88,10 @@ namespace Content.Client
                 "PoweredLight",
                 "Smes",
                 "Powercell",
-                "HandheldLight",
                 "LightBulb",
                 "Healing",
                 "Catwalk",
                 "BallisticMagazine",
-                "BallisticMagazineWeapon",
                 "BallisticBullet",
                 "HitscanWeaponCapacitor",
                 "PowerCell",
@@ -218,6 +214,7 @@ namespace Content.Client
             IoCManager.Resolve<IOverlayManager>().AddOverlay(new ParallaxOverlay());
             IoCManager.Resolve<IChatManager>().Initialize();
             IoCManager.Resolve<ISandboxManager>().Initialize();
+            IoCManager.Resolve<IClientPreferencesManager>().Initialize();
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)

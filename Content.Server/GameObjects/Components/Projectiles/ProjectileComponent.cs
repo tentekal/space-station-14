@@ -3,8 +3,8 @@ using Content.Server.GameObjects.Components.Mobs;
 using Content.Shared.GameObjects;
 using Robust.Server.GameObjects;
 using Robust.Shared.GameObjects;
+using Robust.Shared.GameObjects.Components;
 using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Interfaces.GameObjects.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Serialization;
 using Robust.Shared.ViewVariables;
@@ -77,7 +77,7 @@ namespace Content.Server.GameObjects.Components.Projectiles
                     }
                 }
 
-                if (entity.TryGetComponent(out CameraRecoilComponent recoilComponent)
+                if (!entity.Deleted && entity.TryGetComponent(out CameraRecoilComponent recoilComponent)
                     && Owner.TryGetComponent(out PhysicsComponent physicsComponent))
                 {
                     var direction = physicsComponent.LinearVelocity.Normalized;

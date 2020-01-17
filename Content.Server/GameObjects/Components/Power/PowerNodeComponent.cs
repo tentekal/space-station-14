@@ -37,8 +37,10 @@ namespace Content.Server.GameObjects.Components.Power
         /// </summary>
         public event EventHandler<PowernetEventArgs> OnPowernetRegenerate;
 
-        public override void Initialize()
+        protected override void Startup()
         {
+            base.Startup();
+
             TryCreatePowernetConnection();
         }
 

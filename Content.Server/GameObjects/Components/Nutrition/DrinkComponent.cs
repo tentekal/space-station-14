@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Content.Server.GameObjects.Components.Chemistry;
 using Content.Server.GameObjects.Components.Sound;
 using Content.Server.GameObjects.EntitySystems;
@@ -80,7 +80,6 @@ namespace Content.Server.GameObjects.Components.Nutrition
                 else
                 {
                     _contents = Owner.AddComponent<SolutionComponent>();
-                    _contents.Initialize();
                 }
             }
 
@@ -162,7 +161,7 @@ namespace Content.Server.GameObjects.Components.Nutrition
 
             if (_finishPrototype != null)
             {
-                var finisher = Owner.EntityManager.SpawnEntity(_finishPrototype);
+                var finisher = Owner.EntityManager.SpawnEntity(_finishPrototype, Owner.Transform.GridPosition);
                 if (user.TryGetComponent(out HandsComponent handsComponent) && finisher.TryGetComponent(out ItemComponent itemComponent))
                 {
                     if (handsComponent.CanPutInHand(itemComponent))
