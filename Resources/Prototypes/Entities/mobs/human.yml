@@ -67,7 +67,7 @@
   - type: StatusEffectsUI
   - type: OverlayEffectsUI
   - type: HeatResistance
-  - type: Damageablei
+  - type: Damageable
   - type: CursorStylesUI
 
   - type: Eye
