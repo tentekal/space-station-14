@@ -1,5 +1,9 @@
+using Content.Server.GameObjects.Components.GUI;
+using Content.Shared.GameObjects.Components;
+using Content.Shared.GameObjects.Components.GUI;
 using Content.Shared.GameObjects.Components.Mobs;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Log;
 using Robust.Shared.ViewVariables;
 
 namespace Content.Server.GameObjects.Components.Mobs
@@ -47,8 +51,13 @@ namespace Content.Server.GameObjects.Components.Mobs
         {
             if (_isInCombatMode)
             {
-                Owner.TryGetComponent(out ServerStatusEffectsComponent statusEffectsComponent);
-                statusEffectsComponent?.ChangeStatus(StatusEffect.Combat, "/Textures/Mob/UI/Combat/skull_icon.png");
+                // Owner.TryGetComponent(out ServerStatusEffectsComponent statusEffectsComponent);
+                // statusEffectsComponent?.ChangeStatus(StatusEffect.Combat, "/Textures/Mob/UI/Combat/skull_icon.png");
+                Logger.Info("Sending Combat mode cursor style change from server...");
+                Owner.TryGetComponent(out ServerCursorStyleComponent cursorStyleComponent);
+                cursorStyleComponent?.ChangeStyle(CursorStyle.Combat, "/Textures/Mob/UI/Combat/skull_icon.png");
+
+
             }
         }
     }
