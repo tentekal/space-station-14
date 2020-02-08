@@ -108,6 +108,16 @@ binds:
   type: state
   key: Right
   canRepeat: true
+- function: TextShiftLeft
+  type: state
+  key: Left
+  canRepeat: true
+  mod1: Shift
+- function: TextShiftRight
+  type: state
+  key: Right
+  canRepeat: true
+  mod1: shift
 - function: TextBackspace
   type: state
   key: BackSpace
